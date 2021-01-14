@@ -2,6 +2,17 @@
 #include "Brick.h"
 
 
+EyeBall::EyeBall() {
+	type = EYEBALL;
+	int ranX = rand() % 2; // - = 0, + = 1
+	int ranY = rand() % 2;
+	ranX == 0 ? this->nx = -1 : this->nx = 1;
+	ranY == 0 ? this->ny = -1 : this->ny = 1;
+	ChangeAnimation(EYEBALL_MOVE);
+	vx = EYEBALL_MOVING_SPEED_X;
+	vy = EYEBALL_MOVING_SPEED_Y;
+}
+
 void EyeBall::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -39,7 +50,6 @@ void EyeBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	//if (coEvents.size() == 0)
 	//{
 
-
 	if (health == 0) {
 		StateObject = ENEMY_DEAD;
 		isDead = true;
@@ -66,6 +76,7 @@ void EyeBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			ChangeAnimation(EYEBALL_MOVE);
 			vx = this->nx * EYEBALL_MOVING_SPEED_X;
 			vy = this->ny * EYEBALL_MOVING_SPEED_Y;
+			Fire();
 		}
 		else if ((vx != 0) && (vy != 0) && rand() % 2 == 0) {
 			vx = 0;
@@ -169,4 +180,27 @@ void EyeBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 }
+
+
+void EyeBall::Fire() {
+	if (timeStartAttack == TIME_DEFAULT) {
+		timeStartAttack = GetTickCount();
+		IsFiring = false;
+	}
+	if (GetTickCount() - timeStartAttack >= 2000 && timeStartAttack != TIME_DEFAULT) {   // qua 2s ban 1 lan 
+		bullet = new EnemyBullet();
+		bullet->type = ENEMY_BULLET;
+		if (nx > 0) {
+			bullet->SetPosition(x + FLOATER_BBOX_WIDTH / 4, y + FLOATER_BBOX_HEIGHT / 3);
+			bullet->ChangeAnimation(TELEPORTER_EYEBALL_BULLET_MOVING);
+		}
+		else {
+			bullet->SetPosition(x + FLOATER_BBOX_WIDTH / 4, y + FLOATER_BBOX_HEIGHT / 3);
+			bullet->ChangeAnimation(TELEPORTER_EYEBALL_BULLET_MOVING);
+		}
+		IsFiring = true;
+		timeStartAttack = TIME_DEFAULT;  //dua ve lai = 0
+	}
+}
+
 

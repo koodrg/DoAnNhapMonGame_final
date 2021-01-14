@@ -151,6 +151,7 @@ void COrb2::ChangeAnimation(STATEOBJECT StateObject) {
 }
 
 void COrb2::Reset() {
+	health = 1;
 	nx = -1;
 	ny = 1;
 	ChangeAnimation(ORB2_STATE_WALKING_LEFT);

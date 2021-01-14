@@ -6,9 +6,9 @@
 
 class CSkull : public Enemy
 {
-	bool isFirstTimeFire = true;  //kiem tra xem co phai lan dau nha dan hay ko
 public:
 	EnemyBullet* bullet;
+	bool isFirstTimeFire = true;  //kiem tra xem co phai lan dau nha dan hay ko
 	//vector<EnemyBullet*> listBullets;
 	DWORD timeStartAttack = TIME_DEFAULT;
 	int ny;

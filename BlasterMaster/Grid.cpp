@@ -46,6 +46,7 @@ void Grid::LoadObject(LPGAMEOBJECT& obj, float x, float y, float width, float he
 	
 	auto area = FindCell(e);
 	switch (obj->type){
+	case WALL:
 	case BRICK:
 	case DAMAGE_BRICK:
 	case STAIR:

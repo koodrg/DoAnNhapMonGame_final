@@ -93,7 +93,7 @@
     <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Thunder.cpp" />
-    <ClCompile Include="WhiteBullet.cpp" />
+    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +165,7 @@
     <ClInclude Include="Teleporter.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Thunder.h" />
-    <ClInclude Include="WhiteBullet.h" />
+    <ClInclude Include="Wall.h" />
     <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>

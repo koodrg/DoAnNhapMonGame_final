@@ -152,7 +152,7 @@ void CSkull::Reset() {
 	nx = -1;
 	ny = 1;
 	jump = false;
-	ChangeAnimation(SKULL_STATE_IDLE);
+	ChangeAnimation(SKULL_STATE_WALKING_RIGHT);
 }
 
 void CSkull::Fire() {
@@ -162,8 +162,7 @@ void CSkull::Fire() {
 		IsFiring = false;
 	}
 
-	if ((GetTickCount() - timeStartAttack >= 3000 && timeStartAttack != TIME_DEFAULT) || (isFirstTimeFire)) {
-		IsFiring = true;
+	if  (isFirstTimeFire && this->StateObject == SKULL_STATE_IDLE) {
 		bullet = new EnemyBullet();
 		bullet->type = ENEMY_BULLET;
 		if (nx > 0) {
@@ -175,8 +174,10 @@ void CSkull::Fire() {
 			bullet->SetPosition(x + SKULL_BBOX_WIDTH, y + SKULL_BBOX_HEIGHT / 3);
 		}
 		//listBullets.push_back(bullet);
+		IsFiring = true;
+		
 		timeStartAttack = TIME_DEFAULT;
-		isFirstTimeFire = false;
+		
 	}
 
 

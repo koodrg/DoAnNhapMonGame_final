@@ -25,10 +25,10 @@ CBossHand::CBossHand(float x, float y, int typeHand, float x_boss, float y_boss)
 
 void CBossHand::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	/*left = x;
+	left = x;
 	top = y;
 	right = x + 18;
-	bottom = y + 32;*/
+	bottom = y + 32;
 }
 
 void CBossHand::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

@@ -32,6 +32,7 @@
 #include "WhiteBullet.h"
 #include "EnemyBullet.h"
 #include "Boss.h"
+#include "Wall.h"
 
 #include "Intro.h"
 #include "End.h"
@@ -62,7 +63,7 @@ protected:
 	Power* power;
 	Thunder* thunder;
 	Hover* hover;
-	int item = 0;
+	int item = 0; //dem so item trong map 10
 	DWORD timeEnter = TIME_DEFAULT;
 	DWORD timeBoss = TIME_DEFAULT;
 	DWORD timeEnd = TIME_DEFAULT;

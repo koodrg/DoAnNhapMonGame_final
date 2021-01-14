@@ -6,6 +6,7 @@
 #include "Brick.h"
 #include "Gate.h"
 #include "Portal.h"
+#include "DamageBrick.h"
 
 EnemyBullet::EnemyBullet() {
 
@@ -28,6 +29,8 @@ void EnemyBullet::ChangeAnimation(STATEOBJECT StateObject) {
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(this->StateObject);
+	float x_player = 0, y_player = 0;
+	playerBig->GetPosition(x_player, y_player);
 	switch (StateObject)
 	{
 	case ENEMY_BULLET_SMALL_MOVING:
@@ -87,6 +90,13 @@ void EnemyBullet::ChangeAnimation(STATEOBJECT StateObject) {
 		vx = -WHITE_BULLET_MOVING_X;
 		vy = WHITE_BULLET_MOVING_Y;
 		break;
+	case TELEPORTER_EYEBALL_BULLET_MOVING:
+		if (x < playerBig->x) vx = CANON_BULLET_MOVING_SPEED;
+		else vx = -CANON_BULLET_MOVING_SPEED;
+		if (y < playerBig->y) vy = CANON_BULLET_MOVING_SPEED;
+		else vy = -CANON_BULLET_MOVING_SPEED;
+		break;
+
 	default:
 		break;
 	}
@@ -104,13 +114,15 @@ void EnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy
 	if (StateObject == MINE_BULLET_JUMPING_RIGHT || StateObject == MINE_BULLET_JUMPING_LEFT) {
 		vy += ENEMY_BULLET_GRAVITY * dt;
 	}
+
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
-	if (coEvents.size() == 0)
+	if (coEvents.size() == 0)  // khong co va cham swept aabb
 	{
 		x += dx;
 		y += dy;
@@ -138,6 +150,27 @@ void EnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy
 				{
 					ChangeAnimation(BULLET_SMALL_HIT);
 				}
+			}
+			if (dynamic_cast<DamageBrick*>(e->obj)) {
+				switch (StateObject) {
+					case MINE_BULLET_JUMPING_LEFT:
+					case MINE_BULLET_JUMPING_RIGHT:
+						if (e->nx != 0) x += dx;
+						if (e->ny != 0) y += dy;
+						break;
+					case TELEPORTER_EYEBALL_BULLET_MOVING:
+					case CANON_BULLET_MOVING_DOWN:
+					case CANON_BULLET_MOVING_UP:
+					case CANON_BULLET_MOVING_RIGHT:
+					case CANON_BULLET_MOVING_LEFT:
+						x += dx;
+						y += dy;
+						break;
+					default:
+						ChangeAnimation(BULLET_SMALL_HIT);
+						break;
+				}
+			
 			}
 
 			if (dynamic_cast<Gate*>(e->obj)) {

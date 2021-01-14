@@ -24,10 +24,10 @@ CBossArm::CBossArm(float x, float y, int typeArm, float _vx, float _vy)
 
 void CBossArm::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	/*left = x;
+	left = x;
 	top = y;
 	right = x + 16;
-	bottom = y + 17;*/
+	bottom = y + 17;
 }
 
 void CBossArm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -72,11 +72,11 @@ void CBossArm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//
 		// Collision logic with other objects
 		//
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			delete e;
-		}
+		//for (UINT i = 0; i < coEventsResult.size(); i++)
+		//{
+		//	//LPCOLLISIONEVENT e = coEventsResult[i];
+		//	//delete e;
+		//}
 	}
 
 	// clean up collision events

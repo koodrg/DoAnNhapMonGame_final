@@ -15,7 +15,7 @@ using namespace std;
 
 
 #define TIME_DEFAULT		0
-#define TIME_FIRING			200  //???
+#define TIME_FIRING			200  
 #define SAFE_DELETE(ptr) \
 if(ptr) \
 {\
@@ -40,7 +40,7 @@ if(ptr) \
 #define JASON_CRAWLING_BBOX_HEIGHT				10
 
 ///// BIG JASON //////
-#define BIG_JASON_MOVING_SPEED						0.08f
+#define BIG_JASON_MOVING_SPEED						0.07f
 #define BIG_JASON_JUMP_SPEED_Y						0.4f
 #define BIG_JASON_GRAVITY							0.001f
 #define BIG_JASON_JUMP_DEFLECT_SPEED				0.2f
@@ -401,6 +401,8 @@ extern enum STATEOBJECT {
 	BOSS_BULLET_NORMAL,
 	//BOSS BULLET
 	BOSS_BULLET,
+	TELEPORTER_EYEBALL_BULLET_MOVING,
+	BULLET_DIE,
 };
 
 extern enum TYPE {
@@ -434,7 +436,7 @@ extern enum TYPE {
 	ORB2,
 	MINE,
 	SKULL,
-	WHITE_BULLET,
+	TELEPORTER_EYEBALL_BULLET,
 	MINE_BULLET,
 	CANON,
 	TELEPORTER,
@@ -448,6 +450,7 @@ extern enum TYPE {
 	BOSS_ARM_RIGHT,
 	BOSS_HAND_LEFT,
 	BOSS_HAND_RIGHT,
+	WALL
 };
 
 

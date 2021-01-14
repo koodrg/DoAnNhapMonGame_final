@@ -232,6 +232,14 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		grid->LoadObject(obj, x, y);
 		break;
 	}
+	case WALL:
+		width = (int)atoi(tokens[3].c_str()) * BIT;
+		height = (int)atoi(tokens[4].c_str()) * BIT;
+		obj = new Wall();
+		obj->SetPosition(x, y);
+		obj->SetSize(width, height);
+		grid->LoadObject(obj, x, y);
+		break;
 	case ORB1:
 		enemy = new COrb1();
 		grid->LoadObject(enemy, x, y);
@@ -386,8 +394,6 @@ void PlayScene::Load() {
 }
 
 void PlayScene::Update(DWORD dt) {
-
-
 	// UPDATE INTRO
 	if (GAME->current_scene == 100) {
 		Intro->Update(dt, &listObjects);
@@ -440,12 +446,14 @@ void PlayScene::Update(DWORD dt) {
 			listEnd3[i]->Update(dt, &listObjects);
 		}
 	}
+	//UPDATE PLAYSCENE
 	else  {
 		listEnemies.clear();
 		listItems.clear();
 		listObjects.clear();
 
-		if ((playerBig->scene_gate == 39) && !playerBig->doneFlash) {
+		// chuan bi vao phong boss
+		if ((playerBig->scene_gate == 39) && !playerBig->doneFlash) { 
 			sound->Stop(GSOUND::S_MAP);
 			sound->Play(GSOUND::S_WARNING, false);
 			Game::GetInstance()->isFlashing = true;
@@ -459,6 +467,7 @@ void PlayScene::Update(DWORD dt) {
 			}
 		}
 
+		//add item vao scene 10
 		if (playerBig->scene_gate == 10 && item == 0) {
 			thunder = new Thunder();
 			thunder->SetPosition(85 * BIT, 50 * BIT);
@@ -468,6 +477,7 @@ void PlayScene::Update(DWORD dt) {
 			grid->AddMovingObject(hover);
 			item++;
 		}
+
 
 		if (CBoss::GetInstance()->isWakingUp && playerBig->scene_gate == 53) {
 			if (timeBoss == TIME_DEFAULT)
@@ -530,9 +540,20 @@ void PlayScene::Update(DWORD dt) {
 				CFloater* floater = static_cast<CFloater*>(listEnemies[i]);
 				listEnemyBullets.push_back(floater->bullet);
 			}
-			if (listEnemies[i]->GetType() == SKULL && listEnemies[i]->IsFiring == true) {
+			if (listEnemies[i]->GetType() == SKULL) {
 				CSkull* skull = static_cast<CSkull*>(listEnemies[i]);
-				listEnemyBullets.push_back(skull->bullet);
+				if (skull->bullet && (skull->isFirstTimeFire && skull->IsFiring)) {
+					listEnemyBullets.push_back(skull->bullet);
+					listEnemies[i]->IsFiring = false;
+				}
+			}
+			if (listEnemies[i]->GetType() == EYEBALL && listEnemies[i]->IsFiring == true) {
+				EyeBall* eyeball = static_cast<EyeBall*>(listEnemies[i]);
+				listEnemyBullets.push_back(eyeball->bullet);
+			}
+			if (listEnemies[i]->GetType() == TELEPORTER && listEnemies[i]->IsFiring == true) {
+				Teleporter* teleporter = static_cast<Teleporter*>(listEnemies[i]);
+				listEnemyBullets.push_back(teleporter->bullet);
 			}
 			if (listEnemies[i]->GetType() == CANON && listEnemies[i]->IsFiring == true) {
 				Canon* canon = static_cast<Canon*>(listEnemies[i]);
@@ -783,15 +804,14 @@ void PlayScene::Update(DWORD dt) {
 		if (boss->isDead) {
 			if (timeEnd == TIME_DEFAULT)
 				timeEnd = GetTickCount();
-			if (GetTickCount() - timeEnd >= 3000) {
+			if (GetTickCount() - timeEnd >= 2000) {
 				camera->SetCamPos(0, 0);
 				timeEnd = TIME_DEFAULT;
-				GAME->SwitchScene(200);
+				GAME->SwitchScene(200); // outtro
 			}
 		}
 	}
 }
-
 
 void PlayScene::UpdateBullet(DWORD dt) {
 	for (int i = 0; i < listBullets.size(); i++) {
@@ -842,7 +862,7 @@ void PlayScene::UpdateBullet(DWORD dt) {
 	for (int i = 0; i < listEnemyBullets.size(); i++) {
 		if (listEnemyBullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
 			if (GetTickCount() - listEnemyBullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && listEnemyBullets[i]->timeStartCol != TIME_DEFAULT) {
-				listEnemyBullets.erase(listEnemyBullets.begin() + i);
+			listEnemyBullets.erase(listEnemyBullets.begin() + i);
 			}
 		}
 	}
@@ -923,6 +943,8 @@ void PlayScene::Render() {
 		for (int i = 0; i < listEnemyBullets.size(); i++) {
 			listEnemyBullets[i]->Render();
 		}
+
+		
 		hud->Render();
 	}
 }

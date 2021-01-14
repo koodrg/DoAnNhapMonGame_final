@@ -11,6 +11,8 @@
 #include "Enemy.h"
 #include "Boss.h"
 #include "Sound.h"
+#include "Wall.h"
+#include "DamageBrick.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -61,11 +63,11 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 			bullet = new PlayerBullet();
 			bullet->type = BIG_JASON_BULLET;
 			if (nx > 0) {
-				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 3, y + BIG_JASON_BBOX_HEIGHT / 2);
+				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 2, y + BIG_JASON_BBOX_HEIGHT * 1.25);
 				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_RIGHT);
 			}
 			else if (nx < 0 ) {
-				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 3, y + BIG_JASON_BBOX_HEIGHT / 2);
+				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 2, y + BIG_JASON_BBOX_HEIGHT * 1.25);
 				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_LEFT);
 			}
 			else if (ny > 0) {
@@ -75,6 +77,24 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 			else if (ny < 0 ) {
 				bullet->SetPosition(x + 7 / BIG_JASON_BBOX_WIDTH / 2, y + BIG_JASON_BBOX_HEIGHT / 2);
 				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_DOWN);
+			}
+		}
+
+		//collision with damage brick
+		for (int i = 0; i < coObjects->size(); i++) {
+			if (coObjects->at(i)->type == DAMAGE_BRICK) {
+				if (CollisionWithObject(coObjects->at(i))) {
+					IsDamaged = true;
+					// damage
+					if (timeDamaged == TIME_DEFAULT) {
+						timeDamaged = GetTickCount();
+					}
+					//isjumping = false;
+					if (GetTickCount() - timeDamaged >= 300) {
+						health = health - 1;
+						timeDamaged = GetTickCount();
+					}
+				}
 			}
 		}
 		// change state die if health = 0
@@ -92,7 +112,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 		}
 		// No collision occured, proceed normally
 
-		if (coEvents.size() == 0)
+		if (coEvents.size() == 0 )
 		{
 			x += dx;
 			y += dy;
@@ -112,6 +132,16 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				if (dynamic_cast<Sophia*>(e->obj)) {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
+				}
+
+				if (dynamic_cast<Wall*>(e->obj)) {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
+				}
+				
+				if (dynamic_cast<DamageBrick*>(e->obj)) {
 					if (e->nx != 0) x += dx;
 					if (e->ny != 0) y += dy;
 				}
@@ -168,6 +198,9 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
+
+		
+
 		// Collision with enemy
 		for (int i = 0; i < coEnemy->size(); i++) {
 			if (CollisionWithObject(coEnemy->at(i))) {
@@ -214,11 +247,40 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 			if (timeDamaged == TIME_DEFAULT) {
 				timeDamaged = GetTickCount();
 			}
-			if (GetTickCount() - timeDamaged >= 600) {
+			if (GetTickCount() - timeDamaged >= 300) {
 				health = health - 1;
 				timeDamaged = TIME_DEFAULT;
 			}
 		}
+
+		
+		for (int i = 0; i < 8; i++) {
+			if (CollisionWithObject(boss->listBossArm[i])) {
+				IsDamaged = true;
+				if (timeDamaged == TIME_DEFAULT) {
+					timeDamaged = GetTickCount();
+				}
+				if (GetTickCount() - timeDamaged >= 300) {
+					health = health - 1;
+					timeDamaged = TIME_DEFAULT;
+				}
+			}
+		}
+
+		for (int i = 0; i < 2; i++) {
+			if (CollisionWithObject(boss->listBossHand[i])) {
+				IsDamaged = true;
+				if (timeDamaged == TIME_DEFAULT) {
+					timeDamaged = GetTickCount();
+				}
+				if (GetTickCount() - timeDamaged >= 300) {
+					health = health - 1;
+					timeDamaged = TIME_DEFAULT;
+				}
+			}
+		}
+
+		
 	}
 }
 

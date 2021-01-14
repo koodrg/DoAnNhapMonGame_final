@@ -11,7 +11,7 @@
 #include "Stair.h"
 #include "Boss.h"
 #include "Sound.h"
-
+#include "DamageBrick.h"
 PlayerBullet::PlayerBullet() {
 	sound->Play(GSOUND::S_BULLET_SOPHIA, false);
 }
@@ -166,6 +166,13 @@ void PlayerBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObjects, vector<
 				if (e->nx != 0) x += dx;
 				if (e->ny != 0) y += dy;
 			}
+			if (dynamic_cast<DamageBrick*>(e->obj)) {
+				if (Allow[BIG_JASON]) {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
+				}
+			}
+
 		}
 	}
 
