@@ -6,6 +6,7 @@
 30	Textures/car.png	255	0	255
 40	Textures/enemies.png	255	0	255
 41	Textures/bosses.png	255	0	255
+42	Textures/overworld_construct.png	255	0	255
 50	Textures/map2.png	255	255	255
 60	Textures/jason.png	255	0	255
 70	Textures/HealthBar.png	255	255	0
@@ -249,6 +250,18 @@
 ##
 # Brick
 40001	408	225	424	241	20
+# Wall
+40010	0	136	32	168	42
+
+#top_left
+#40010	0	136	16	152	42
+#bottom_left
+#40011	0	153	16	169	42
+#top_right
+#40012	17	136	33	152	42
+#bottom_right
+#40013	17	153	33	169	42
+
 # Health Bar + Health
 80000	0	0	8	48	70
 80001	0	0	6	3	80
@@ -526,6 +539,10 @@
 601	51110	9999999
 #Brick
 602	40001	100
+#Wall
+610	40010	100
+
+
 #============== SMALL JASON =========
 100	1000	100
 101	1010	100
@@ -803,6 +820,8 @@
 41	41	1502	115
 42	42	1503	116
 43	43	1504	117
+#WALL
+44	44	610	121
 [SWITCHSCENE]
 #switch scene
 100

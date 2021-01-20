@@ -12,6 +12,7 @@
 #include "Boss.h"
 #include "Sound.h"
 #include "DamageBrick.h"
+#include "Wall.h"
 PlayerBullet::PlayerBullet() {
 	sound->Play(GSOUND::S_BULLET_SOPHIA, false);
 }
@@ -143,6 +144,11 @@ void PlayerBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObjects, vector<
 					ChangeAnimation(BULLET_SMALL_HIT);
 				else if (Allow[BIG_JASON])
 					ChangeAnimation(BIG_JASON_BULLET_HIT);
+			}
+
+			if (dynamic_cast<Wall*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
 			}
 
 			if (dynamic_cast<Power*>(e->obj)) {

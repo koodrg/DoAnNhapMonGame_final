@@ -1,5 +1,6 @@
 #include "EyeBall.h"
 #include "Brick.h"
+#include "Wall.h"
 
 
 EyeBall::EyeBall() {
@@ -93,6 +94,10 @@ void EyeBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
 		LPCOLLISIONEVENT e = coEventsResult[i];
+		if (dynamic_cast<Wall*>(e->obj)) {
+			if (e->nx != 0) x += dx;
+			if (e->ny != 0) y += dy;
+		}
 
 		if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Brick
 		{

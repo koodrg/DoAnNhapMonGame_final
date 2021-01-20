@@ -4,6 +4,7 @@
 class Bullet : public GameObject {
 public:
 	int damage = 0;
+	bool isDead = false;
 	Bullet();
 	~Bullet();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;

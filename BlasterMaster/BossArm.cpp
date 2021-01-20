@@ -40,9 +40,9 @@ void CBossArm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
-	if (health == 0) {
+	/*if (health == 0) {
 		StateObject = ENEMY_DEAD;
-	}
+	}*/
 
 	// turn off collision when die 
 	if (StateObject != ENEMY_DEAD)

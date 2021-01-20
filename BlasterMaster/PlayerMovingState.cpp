@@ -169,12 +169,19 @@ void PlayerMovingState::HandleKeyboard() {
 			else if (Allow[JASON])
 				playerSmall->ChangeAnimation(new PlayerStandingState());
 		}
+
 		if (keyCode[DIK_UP]) {
 			if (Allow[SOPHIA]) {
-				if (!player->IsUp)
-					player->y = player->y - (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
-				player->IsUp = true;
-				player->ChangeAnimation(new PlayerUpperState(), MOVE_TO_NORMAL);
+				if (keyCode[DIK_RIGHT] && keyCode[DIK_LEFT]) {
+					//do something here	
+					player->ChangeAnimation(new PlayerStandingState, MOVE_TO_NORMAL);
+				}
+				else {
+					if (!player->IsUp)
+						player->y = player->y - (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
+					player->IsUp = true;
+					player->ChangeAnimation(new PlayerUpperState(), MOVE_TO_NORMAL);
+				}
 			}
 		}
 		else if (keyCode[DIK_RIGHT]) {

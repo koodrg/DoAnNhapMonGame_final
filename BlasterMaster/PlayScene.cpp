@@ -58,9 +58,9 @@ void PlayScene::_ParseSection_MAP(string line) {
 	MAP->width = atoi(tokens[1].c_str());
 	MAP->height = atoi(tokens[2].c_str());
 
-	// create cells
-	grid->cols = (MAP->width / 90) + 1;
-	grid->rows = (MAP->height / 90) + 1;
+	// create grid
+	grid->cols = (MAP->width / 90) + 1; // max cols-1
+	grid->rows = (MAP->height / 90) + 1; // max rows-1 
 	grid->Init();
 }
 
@@ -233,12 +233,13 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		break;
 	}
 	case WALL:
-		width = (int)atoi(tokens[3].c_str()) * BIT;
-		height = (int)atoi(tokens[4].c_str()) * BIT;
-		obj = new Wall();
-		obj->SetPosition(x, y);
-		obj->SetSize(width, height);
-		grid->LoadObject(obj, x, y);
+		width = (int)atoi(tokens[3].c_str());
+		for (int i = 0; i < width; i++) {
+			obj = new Wall();
+			obj->SetPosition(x + 32 * i, y);
+			obj->SetSize(32, 16);
+			grid->LoadObject(obj, x + 32 * i, y);
+		}
 		break;
 	case ORB1:
 		enemy = new COrb1();
@@ -827,6 +828,9 @@ void PlayScene::UpdateBullet(DWORD dt) {
 					listBullets.erase(listBullets.begin() + i);
 				}
 			}
+			else if (listBullets[i]->isDead) {
+				listBullets.erase(listBullets.begin() + i);
+			}
 		}
 		else if (Allow[JASON]) {
 			if (listBullets[i]->GetX() - playerSmall->x >= SCREEN_WIDTH - (playerSmall->x - Camera::GetInstance()->GetCamPosX()) || playerSmall->x - listBullets[i]->GetX() >= playerSmall->x - Camera::GetInstance()->GetCamPosX()) {
@@ -868,6 +872,9 @@ void PlayScene::UpdateBullet(DWORD dt) {
 	}
 	for (int i = 0; i < listEnemyBullets.size(); i++) {
 		if (listEnemyBullets[i]->y > camera->camPosY + SCREEN_HEIGHT) {
+			listEnemyBullets.erase(listEnemyBullets.begin() + i);
+		}
+		else if (listEnemyBullets[i]->isDead) {
 			listEnemyBullets.erase(listEnemyBullets.begin() + i);
 		}
 	}
@@ -919,7 +926,6 @@ void PlayScene::Render() {
 
 	if (GAME->current_scene != 100 && GAME->current_scene != 200 && GAME->current_scene != 300 && GAME->current_scene != 400) {
 		Map::GetInstance()->Render();
-		//grid->RenderCell();
 		player->Render();
 		playerSmall->Render();
 		playerBig->Render();
@@ -928,9 +934,7 @@ void PlayScene::Render() {
 			CBoss::GetInstance()->Render();
 		}
 
-		for (int i = 0; i < listObjects.size(); i++) {
-			listObjects[i]->Render();
-		}
+		
 		for (int i = 0; i < listEnemies.size(); i++) {
 			listEnemies[i]->Render();
 		}
@@ -943,8 +947,9 @@ void PlayScene::Render() {
 		for (int i = 0; i < listEnemyBullets.size(); i++) {
 			listEnemyBullets[i]->Render();
 		}
-
-		
+		for (int i = 0; i < listObjects.size(); i++) {
+			listObjects[i]->Render();
+		}
 		hud->Render();
 	}
 }

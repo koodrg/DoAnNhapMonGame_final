@@ -69,6 +69,6 @@ public:
 		for (int i = 100; i < 150; i++)
 			return  (rand() % 150) + 1;
 	}
-	void Revive();
+	//void Revive();
 };
 

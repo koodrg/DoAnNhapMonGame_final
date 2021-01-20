@@ -22,7 +22,7 @@ public:
 	vector<LPGAMEOBJECT> CurMovingObjectInViewPort;
 	vector<LPGAMEOBJECT> ObjectHolder;
 	void Init();
-	void RenderCell();
+	//void RenderCell();
 	void UpdateCell();
 	Area FindCell(RECT e);
 	void SetCellSize(int SizeCell) { this->SizeCell = SizeCell; }

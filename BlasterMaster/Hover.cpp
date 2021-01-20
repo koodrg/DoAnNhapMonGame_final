@@ -32,6 +32,6 @@ void Hover::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	right = x + ITEM_BBOX_WIDTH;
-	bottom = y + ITEM_BBOX_HEIGHT;
+	right = x + width * 16;
+	bottom = y + height * 16;
 }

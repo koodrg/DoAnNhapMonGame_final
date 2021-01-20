@@ -59,9 +59,16 @@ void PlayerStandingState::Update() {
 }
 
 void PlayerStandingState::HandleKeyboard() {
-	if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT]) {
-		if (Allow[SOPHIA])
-			player->ChangeAnimation(new PlayerStandingState(), NORMAL);
+	if ((keyCode[DIK_LEFT] && keyCode[DIK_RIGHT]) && (keyCode[DIK_UPARROW])) {
+		player->ChangeAnimation(new PlayerUpperState(), MOVE_TO_NORMAL);
+	}
+	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT]) {
+		if (Allow[SOPHIA]) {
+			if (keyCode[DIK_UPARROW]) {
+				player->ChangeAnimation(new PlayerStandingState(), NORMAL);
+			}
+			else player->ChangeAnimation(new PlayerStandingState(), NORMAL);
+		}
 		else if (Allow[JASON])
 			playerSmall->ChangeAnimation(new PlayerStandingState());
 		else if(Allow[BIG_JASON])

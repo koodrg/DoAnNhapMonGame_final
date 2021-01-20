@@ -197,10 +197,10 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//
 		// Collision logic with other objects
 		//
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-		}
+		//for (UINT i = 0; i < coEventsResult.size(); i++)
+		//{
+		//	/*LPCOLLISIONEVENT e = coEventsResult[i];*/
+		//}
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

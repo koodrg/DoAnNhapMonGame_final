@@ -10,6 +10,7 @@
 #include "Brick.h"
 #include "Stair.h"
 #include "DamageBrick.h"
+#include "Gate.h"
 #include "Orb1.h"
 #include "Worm.h"
 #include "Power.h"
@@ -167,6 +168,11 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 				{
 					if (e->nx != 0) x += dx;
 					Stair* p = dynamic_cast<Stair*>(e->obj);
+				}
+				if (dynamic_cast<Gate*>(e->obj))
+				{
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
 				}
 			}
 		}
@@ -475,7 +481,7 @@ void Sophia::OnKeyDown(int key) {
 		}
 		break;
 	case DIK_A:
-		Revive();
+		//Revive();
 		break;
 	case DIK_S:
 		if (timeStartAttack == TIME_DEFAULT) {
@@ -651,12 +657,12 @@ void Sophia::Reset(float x, float y) {
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
 }
-
-void Sophia::Revive() {
-	//isDead = false;
-	//IsRender = true;
-	//Allow[SOPHIA] = true;
-	//ChangeAnimation(new PlayerStandingState());
-
-}
+//
+//void Sophia::Revive() {
+//	isDead = false;
+//	IsRender = true;
+//	Allow[SOPHIA] = true;
+//	ChangeAnimation(new PlayerStandingState());
+//
+//}
 

@@ -169,6 +169,9 @@ if(ptr) \
 #define CANON_BBOX_WIDTH						26
 #define CANON_BBOX_HEIGHT						26
 
+//WALL
+#define WALL_BBOX_WIDTH							32
+#define WALL_BBOX_HEIGHT						32
 //// SCREEN /////
 //#define SCREEN_WIDTH 320
 //#define SCREEN_HEIGHT 240
@@ -402,7 +405,7 @@ extern enum STATEOBJECT {
 	//BOSS BULLET
 	BOSS_BULLET,
 	TELEPORTER_EYEBALL_BULLET_MOVING,
-	BULLET_DIE,
+	WALL_NORMAL,
 };
 
 extern enum TYPE {
@@ -450,7 +453,7 @@ extern enum TYPE {
 	BOSS_ARM_RIGHT,
 	BOSS_HAND_LEFT,
 	BOSS_HAND_RIGHT,
-	WALL
+	WALL,
 };
 
 

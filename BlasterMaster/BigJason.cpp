@@ -131,10 +131,10 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
-				if (dynamic_cast<Sophia*>(e->obj)) {
+				/*if (dynamic_cast<Sophia*>(e->obj)) {
 					if (e->nx != 0) x += dx;
 					if (e->ny != 0) y += dy;
-				}
+				}*/
 
 				if (dynamic_cast<Wall*>(e->obj)) {
 					if (e->nx != 0) x += dx;
@@ -169,7 +169,6 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 						vy = 0;
 					}
 				}
-
 				if (dynamic_cast<Gate*>(e->obj)) {
 					Gate* g = dynamic_cast<Gate*>(e->obj);
 					scene_gate = g->scene_id;
@@ -242,6 +241,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 			}
 		}
 
+		//Collision with boss
 		if (CollisionWithObject(boss)) {
 			IsDamaged = true;
 			if (timeDamaged == TIME_DEFAULT) {
@@ -252,7 +252,6 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 				timeDamaged = TIME_DEFAULT;
 			}
 		}
-
 		
 		for (int i = 0; i < 8; i++) {
 			if (CollisionWithObject(boss->listBossArm[i])) {
@@ -279,8 +278,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 				}
 			}
 		}
-
-		
+	
 	}
 }
 

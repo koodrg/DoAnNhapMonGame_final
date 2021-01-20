@@ -13,7 +13,7 @@ Grid* Grid::GetInstance()
 	return __instance;
 }
 
-
+//find cell camera
 Area Grid::FindCell(RECT e) {
 	return {
 		int(max(0		, e.top / SizeCell)),
@@ -24,7 +24,6 @@ Area Grid::FindCell(RECT e) {
 }
 
 void Grid::Init() {
-
 	Cells.clear();
 	for (int y = 0; y < rows; ++y)
 	{
@@ -84,32 +83,34 @@ void Grid::LoadObject(LPGAMEOBJECT& obj, float x, float y, float width, float he
 	}
 }
 
-void Grid::RenderCell() {
+//void Grid::RenderCell() {
+//
+//	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
+//	auto area = FindCell(camera->GetBound());
+//
+//	RECT rect;
+//
+//	for (int r = area.TopCell; r <= area.BottomCell; r++)
+//	{
+//		for (int c = area.LeftCell; c <= area.RightCell; c++)
+//		{
+//			LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
+//			
+//			SetRect(&rect,
+//				Cells[r][c]->posX * SizeCell,
+//				Cells[r][c]->posY * SizeCell,
+//				Cells[r][c]->posX * SizeCell + SizeCell,
+//				Cells[r][c]->posY * SizeCell + SizeCell);
+//			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + SizeCell, rect.top + 1, 150);
+//			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + 1, rect.top + SizeCell, 150);
+//		}
+//	}
+//}
 
-	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
-	auto area = FindCell(camera->GetBound());
-
-	RECT rect;
-
-	for (int r = area.TopCell; r <= area.BottomCell; r++)
-	{
-		for (int c = area.LeftCell; c <= area.RightCell; c++)
-		{
-			LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
-			
-			SetRect(&rect,
-				Cells[r][c]->posX * SizeCell,
-				Cells[r][c]->posY * SizeCell,
-				Cells[r][c]->posX * SizeCell + SizeCell,
-				Cells[r][c]->posY * SizeCell + SizeCell);
-			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + SizeCell, rect.top + 1, 150);
-			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + 1, rect.top + SizeCell, 150);
-
-		}
-	}
-}
 
 template<typename T, typename Pred>
+
+//
 void RemoveObjectIf(unordered_set<T>& container, Pred  del)
 {
 	for (auto it = container.begin(), end = container.end(); it != end; )
@@ -120,7 +121,7 @@ void RemoveObjectIf(unordered_set<T>& container, Pred  del)
 }
 
 void Grid::UpdateCell() {
-	auto area = FindCell(camera->GetBound());
+	auto area = FindCell(camera->GetBound()); // tim cac cell de update
 	unordered_set<LPGAMEOBJECT> shouldBeUpdatedObjects;
 	bool isDeadObject = false;
 	LOOP(r, area.TopCell, area.BottomCell)
@@ -217,6 +218,7 @@ void Grid::RemoveDeadObject() {
 	}
 }
 
+// calc obj in view port to add obj to listObjects
 void Grid::CalcObjectInViewPort() {
 	auto area = FindCell(camera->GetBound());
 

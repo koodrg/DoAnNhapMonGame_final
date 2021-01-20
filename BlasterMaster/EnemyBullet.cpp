@@ -7,6 +7,7 @@
 #include "Gate.h"
 #include "Portal.h"
 #include "DamageBrick.h"
+#include "Wall.h"
 
 EnemyBullet::EnemyBullet() {
 
@@ -146,11 +147,20 @@ void EnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy
 					if (e->nx != 0) x += dx;
 					if (e->ny != 0) y += dy;
 				}
+				else if (StateObject == BOSS_BULLET) {
+					isDead = true;
+				}
 				else
 				{
 					ChangeAnimation(BULLET_SMALL_HIT);
 				}
 			}
+
+			if (dynamic_cast<Wall*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+			}
+
 			if (dynamic_cast<DamageBrick*>(e->obj)) {
 				switch (StateObject) {
 					case MINE_BULLET_JUMPING_LEFT:
@@ -174,7 +184,8 @@ void EnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy
 			}
 
 			if (dynamic_cast<Gate*>(e->obj)) {
-				ChangeAnimation(BULLET_SMALL_HIT);
+				isDead = true;
+				//ChangeAnimation(BULLET_SMALL_HIT);
 			}
 			if (dynamic_cast<Portal*>(e->obj)) {
 				ChangeAnimation(BULLET_SMALL_HIT);
