@@ -12,7 +12,7 @@ class CBoss : public Enemy
 public:
 	EnemyBullet* bullet;
 	bool IsDamaged = false;
-	int healthBoss = 10;
+	int healthBoss = 30;
 	static CBoss* _instance;
 	D3DCOLOR color;
 	DWORD timeDamaged = TIME_DEFAULT;
@@ -35,8 +35,6 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void Reset();
-	void Sleep();
-	void Move();
 	void WakeUp();
 	static CBoss* GetInstance();
 	void Fire();

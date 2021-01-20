@@ -197,10 +197,10 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//
 		// Collision logic with other objects
 		//
-		//for (UINT i = 0; i < coEventsResult.size(); i++)
-		//{
-		//	/*LPCOLLISIONEVENT e = coEventsResult[i];*/
-		//}
+		/*for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			if()
+		}*/
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -265,13 +265,6 @@ void CBoss::Reset() {
 	nx = 1;
 	ChangeAnimation(BOSS_MOVE);
 	SetPosition(111 * BIT, 66 * BIT);
-}
-
-//boss dung yen khi bi ban trung
-void CBoss::Sleep() {
-	/*for (int i = 0; i < i; i++) {
-
-	}*/
 }
 
 

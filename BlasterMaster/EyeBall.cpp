@@ -192,7 +192,7 @@ void EyeBall::Fire() {
 		timeStartAttack = GetTickCount();
 		IsFiring = false;
 	}
-	if (GetTickCount() - timeStartAttack >= 2000 && timeStartAttack != TIME_DEFAULT) {   // qua 2s ban 1 lan 
+	if (GetTickCount() - timeStartAttack >= 200 && timeStartAttack != TIME_DEFAULT) {   // qua 2s ban 1 lan 
 		bullet = new EnemyBullet();
 		bullet->type = ENEMY_BULLET;
 		if (nx > 0) {

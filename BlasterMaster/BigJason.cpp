@@ -229,6 +229,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 					health = health - 1;
 				}
 				coBullet->at(i)->ChangeAnimation(BULLET_SMALL_HIT);
+				//coBullet->at(i)->isDead = true;
 			}
 		}
 		// Collison with item 

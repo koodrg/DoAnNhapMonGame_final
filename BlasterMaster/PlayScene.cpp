@@ -550,11 +550,17 @@ void PlayScene::Update(DWORD dt) {
 			}
 			if (listEnemies[i]->GetType() == EYEBALL && listEnemies[i]->IsFiring == true) {
 				EyeBall* eyeball = static_cast<EyeBall*>(listEnemies[i]);
-				listEnemyBullets.push_back(eyeball->bullet);
+				if (eyeball->bullet) {
+					listEnemyBullets.push_back(eyeball->bullet);
+					listEnemies[i]->IsFiring = false;
+				}
 			}
 			if (listEnemies[i]->GetType() == TELEPORTER && listEnemies[i]->IsFiring == true) {
 				Teleporter* teleporter = static_cast<Teleporter*>(listEnemies[i]);
-				listEnemyBullets.push_back(teleporter->bullet);
+				if (teleporter->bullet) {
+					listEnemyBullets.push_back(teleporter->bullet);
+					listEnemies[i]->IsFiring = false;
+				}
 			}
 			if (listEnemies[i]->GetType() == CANON && listEnemies[i]->IsFiring == true) {
 				Canon* canon = static_cast<Canon*>(listEnemies[i]);
@@ -862,22 +868,35 @@ void PlayScene::UpdateBullet(DWORD dt) {
 
 	for (int i = 0; i < listEnemyBullets.size(); i++) {
 		listEnemyBullets[i]->Update(dt, &listObjects);
-	}
-	for (int i = 0; i < listEnemyBullets.size(); i++) {
+
 		if (listEnemyBullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
 			if (GetTickCount() - listEnemyBullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && listEnemyBullets[i]->timeStartCol != TIME_DEFAULT) {
-			listEnemyBullets.erase(listEnemyBullets.begin() + i);
+				listEnemyBullets.erase(listEnemyBullets.begin() + i);
 			}
 		}
-	}
-	for (int i = 0; i < listEnemyBullets.size(); i++) {
-		if (listEnemyBullets[i]->y > camera->camPosY + SCREEN_HEIGHT) {
+		else if (listEnemyBullets[i]->y > camera->camPosY + SCREEN_HEIGHT) {
 			listEnemyBullets.erase(listEnemyBullets.begin() + i);
 		}
 		else if (listEnemyBullets[i]->isDead) {
 			listEnemyBullets.erase(listEnemyBullets.begin() + i);
 		}
 	}
+	//for (int i = 0; i < listEnemyBullets.size(); i++) {
+	//	if (listEnemyBullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
+	//		if (GetTickCount() - listEnemyBullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && listEnemyBullets[i]->timeStartCol != TIME_DEFAULT) {
+	//		listEnemyBullets.erase(listEnemyBullets.begin() + i);
+	//		}
+	//	}
+	//	else if (listEnemyBullets[i]->y > camera->camPosY + SCREEN_HEIGHT) {
+	//		listEnemyBullets.erase(listEnemyBullets.begin() + i);
+	//	}
+	//	else if (listEnemyBullets[i]->isDead) {
+	//		listEnemyBullets.erase(listEnemyBullets.begin() + i);
+	//	}
+	//}
+	//for (int i = 0; i < listEnemyBullets.size(); i++) {
+	//	
+	//}
 }
 
 void PlayScene::ChangeScene() {
