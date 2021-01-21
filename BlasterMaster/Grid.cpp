@@ -137,6 +137,8 @@ void Grid::UpdateCell() {
 				e.bottom = obj->y + obj->height;
 				auto objArea = FindCell(e);
 				if (obj->isDead) isDeadObject = true;
+
+				//update cac obj trong cell
 				if (objArea.TopCell != r || objArea.RightCell != c)
 				{
 					shouldBeUpdatedObjects.emplace(obj);
@@ -149,6 +151,7 @@ void Grid::UpdateCell() {
 		LOOP(c, area.LeftCell, area.RightCell)
 	{
 		if (Cells[r][c]->staticObjects.size() == 0) continue;
+		//remove dead static obj
 		RemoveObjectIf(Cells[r][c]->staticObjects, [&](auto& obj)
 			{
 				RECT e;
@@ -209,11 +212,13 @@ void Grid::AddMovingObject(LPGAMEOBJECT obj) {
 		Cells[r][c]->movingObjects.insert(obj);
 }
 
+
 void Grid::RemoveDeadObject() {
 	auto area = FindCell(camera->GetBound());
 	LOOP(r, area.TopCell, area.BottomCell)
 		LOOP(c, area.LeftCell, area.RightCell)
 	{
+		// remove object in container(movingObjects) if obj->isDead
 		RemoveObjectIf(Cells[r][c]->movingObjects, [](auto obj) {return obj->isDead; });
 	}
 }

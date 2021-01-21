@@ -79,11 +79,11 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 		Fire();
 
 		// change state die if health = 0
-		if (health == 0) {
+		/*if (health == 0) {
 			IsDamaged = false;
 			color = NULL;
 			ChangeAnimation(new PlayerDeadState());
-		}
+		}*/
 		if (IsDamaged) {
 			if (timeDamaged == TIME_DEFAULT) {
 				timeDamaged = GetTickCount();
@@ -657,12 +657,12 @@ void Sophia::Reset(float x, float y) {
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
 }
-//
-//void Sophia::Revive() {
-//	isDead = false;
-//	IsRender = true;
-//	Allow[SOPHIA] = true;
-//	ChangeAnimation(new PlayerStandingState());
-//
-//}
+
+void Sophia::Revive() {
+	health = 8;
+	isDead = false;
+	IsRender = true;
+	Allow[SOPHIA] = true;
+	ChangeAnimation(new PlayerStandingState());
+}
 

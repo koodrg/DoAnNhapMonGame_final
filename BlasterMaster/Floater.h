@@ -1,6 +1,7 @@
 #pragma once
 #include "Enemy.h"
 #include "EnemyBullet.h"
+#include "PlayerBullet.h"
 
 class CFloater : public Enemy
 {

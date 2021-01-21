@@ -28,8 +28,6 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	coEvents.clear();
-
 	if (health <= 0) {
 		StateObject = ENEMY_DEAD;
 		isDead = true;
@@ -37,6 +35,12 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// turn off collision when die 
 	if (StateObject != ENEMY_DEAD)
 		CalcPotentialCollisions(coObjects, coEvents);
+
+	coEvents.clear();
+
+	// turn off collision when die 
+	/*if (state != GOOMBA_STATE_DIE)*/
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
@@ -85,10 +89,9 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		}
 		double kcx = this->x - player->x;
-		if (kcx <= 32 && kcx > 0 && bottom == false)
+		if (kcx <= 32 && kcx > 0 && bottom == false && drop != true)
 		{
 			ChangeAnimation(DOME_STATE_DROP);
-
 			bottom = false;
 			top = false;
 			right = false;
@@ -218,6 +221,7 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
+
 
 void CDome::Render()
 {

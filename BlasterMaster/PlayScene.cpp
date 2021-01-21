@@ -564,14 +564,22 @@ void PlayScene::Update(DWORD dt) {
 			}
 			if (listEnemies[i]->GetType() == CANON && listEnemies[i]->IsFiring == true) {
 				Canon* canon = static_cast<Canon*>(listEnemies[i]);
-				if (canon->bullet1)
+				if (canon->bullet1) {
 					listEnemyBullets.push_back(canon->bullet1);
-				if (canon->bullet2)
+					canon->IsFiring = false;
+				}
+				if (canon->bullet2) {
 					listEnemyBullets.push_back(canon->bullet2);
-				if (canon->bullet3)
+					canon->IsFiring = false;
+				}
+				if (canon->bullet3) {
 					listEnemyBullets.push_back(canon->bullet3);
-				if (canon->bullet4)
+					canon->IsFiring = false;
+				}
+				if (canon->bullet4) {
 					listEnemyBullets.push_back(canon->bullet4);
+					canon->IsFiring = false;
+				}
 			}
 		}
 		for (size_t i = 0; i < listItems.size(); i++) {
